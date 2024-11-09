@@ -1,10 +1,12 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Register() {
+    const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -72,6 +74,8 @@ export default function Register() {
             });
 
             toast.update(loadingToastId, { render: "Registration successful", type: "success", isLoading: false, autoClose: 3000 });
+            //redirect to login page
+            router.push("/login");
         } else if (data.error === "User already exists") {
             toast.update(loadingToastId, { render: "User already exists", type: "error", isLoading: false, autoClose: 3000 });
         } else {
