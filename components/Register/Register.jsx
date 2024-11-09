@@ -1,13 +1,14 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    mobile: "",
     password: "",
   });
 
@@ -20,24 +21,24 @@ export default function Register() {
     })
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async(e) => {
     e.preventDefault();
     
     // Basic form validation
-    const { firstname, lastname, email, phone, password } = formData;
-    if (!firstname || !lastname || !email || !phone || !password) {
+    const { firstName, lastName, email, mobile, password } = formData;
+    if (!firstName || !lastName || !email || !mobile || !password) {
       alert("Please fill in all fields.");
       return;
     }
 
     // Minimum 3 characters validation
-    if (firstname.length < 3 || lastname.length < 3 || password.length < 3) {
+    if (firstName.length < 3 || lastName.length < 3 || password.length < 3) {
       alert("First name, last name, and password must have at least 3 characters.");
       return;
     }
 
     // Phone number validation (at least 9 characters)
-    if (phone.length < 9) {
+    if (mobile.length < 9) {
       alert("Phone number must have at least 9 characters.");
       return;
     }
@@ -49,10 +50,28 @@ export default function Register() {
       return;
     }
 
+    try{
+        const response = await axios.post("/api/user/registration", JSON.stringify(formData), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = response.data;
+        if (data.status === "success") {
+            alert("Registration successful");
+        } else if (data.status === "failed" && data.error === "User already exists") {
+            alert("User already exists");
+        } else {
+            alert("Registration failed");
+        }
+    } catch (err) {
+        alert("Error registering user: " + err.message);
+    }
+
     
   };
 
-  console.log("here is the form data", formData);
+  console.log("here is the form data", JSON.stringify(formData));
 
   return (
     <div className="pt-28">
@@ -68,20 +87,20 @@ export default function Register() {
             {/* first name */}
             <div>
               <label
-                htmlFor="firstname"
+                htmlFor="firstName"
                 className="block text-sm font-medium text-gray-900"
               >
                 First Name
               </label>
               <div className="mt-2">
                 <input
-                  id="firstname"
-                  name="firstname"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  autoComplete="firstname"
+                  autoComplete="firstName"
                   onChange={(e) => handleChange(e)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm pl-2"
                 />
               </div>
             </div>
@@ -89,20 +108,20 @@ export default function Register() {
             {/* last name */}
             <div>
               <label
-                htmlFor="lastname"
+                htmlFor="lastName"
                 className="block text-sm font-medium text-gray-900"
               >
                 Last Name
               </label>
               <div className="mt-2">
                 <input
-                  id="lastname"
-                  name="lastname"
+                  id="lastName"
+                  name="lastName"
                   type="text"
-                  autoComplete="lastname"
+                  autoComplete="lastName"
                   onChange={(e) => handleChange(e)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -123,7 +142,7 @@ export default function Register() {
                   autoComplete="email"
                   onChange={(e) => handleChange(e)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -131,20 +150,20 @@ export default function Register() {
             {/* phone number */}
             <div>
               <label
-                htmlFor="phone"
+                htmlFor="mobile"
                 className="block text-sm font-medium text-gray-900"
               >
                 Phone Number
               </label>
               <div className="mt-2">
                 <input
-                  id="phone"
-                  name="phone"
-                  type="text"
-                  autoComplete="phone"
+                  id="mobile"
+                  name="mobile"
+                  type="number"
+                  autoComplete="mobile"
                   onChange={(e) => handleChange(e)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -167,7 +186,7 @@ export default function Register() {
                   autoComplete="current-password"
                   onChange={(e) => handleChange(e)}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
