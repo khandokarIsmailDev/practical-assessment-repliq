@@ -6,6 +6,15 @@ export async function POST(req,res){
         const reqBody = await req.json()
         reqBody.otp = "0"
         const prisma = new PrismaClient()
+
+        //check if user already exists
+        const userExists = await prisma.users.findUnique({
+            where:{email:reqBody.email}
+        })
+        if(userExists){
+            return NextResponse.json({status:"failed",error:"User already exists"})
+        }
+
         const result = await prisma.users.create({
             data:reqBody
         })
