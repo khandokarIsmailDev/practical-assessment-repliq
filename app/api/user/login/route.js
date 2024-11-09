@@ -12,8 +12,8 @@ export async function POST(req,res){
             where:reqBody
         })
 
-        if(result.length === 0){
-            return NextResponse.json({status:"failed",data:"Invalid Email or Password"})
+        if(result === null){
+            return NextResponse.json({status:"failed",data:"Invalid Email or Password"},{status:401})
         }else{
             let token = await CreateToken(result['email'],result['id'])
             let expireDuration = new Date(Date.now() + 24*60*60*1000)
