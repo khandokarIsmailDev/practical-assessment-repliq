@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -27,26 +28,26 @@ export default function Register() {
     // Basic form validation
     const { firstName, lastName, email, mobile, password } = formData;
     if (!firstName || !lastName || !email || !mobile || !password) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 
     // Minimum 3 characters validation
     if (firstName.length < 3 || lastName.length < 3 || password.length < 3) {
-      alert("First name, last name, and password must have at least 3 characters.");
+      toast.error("First name, last name, and password must have at least 3 characters.");
       return;
     }
 
     // Phone number validation (at least 9 characters)
     if (mobile.length < 9) {
-      alert("Phone number must have at least 9 characters.");
+      toast.error("Phone number must have at least 9 characters.");
       return;
     }
 
     // Email format validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-      alert("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return;
     }
 
@@ -58,14 +59,14 @@ export default function Register() {
         });
         const data = response.data;
         if (data.status === "success") {
-            alert("Registration successful");
+            toast.success("Registration successful");
         } else if (data.status === "failed" && data.error === "User already exists") {
-            alert("User already exists");
+            toast.error("User already exists");
         } else {
-            alert("Registration failed");
+            toast.error("Registration failed");
         }
     } catch (err) {
-        alert("Error registering user: " + err.message);
+        toast.error("Error registering user: " + err.message);
     }
 
     
