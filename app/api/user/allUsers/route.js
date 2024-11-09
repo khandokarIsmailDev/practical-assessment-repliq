@@ -5,7 +5,10 @@ export async function GET(req,res){
     try{
         const prisma = new PrismaClient()
         const result = await prisma.users.findMany()
-        return NextResponse.json({status:"success",data:result})
+
+        const usersWithoutPassword = result.map(({password, ...rest}) => rest)
+
+        return NextResponse.json({status:"success",data:usersWithoutPassword})
     }catch(err){
         return NextResponse.json({status:"failed",data:err.toString()})
     }
