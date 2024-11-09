@@ -22,7 +22,7 @@ export default function Register() {
     })
   };
 
-  const handleSubmit =async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Basic form validation
@@ -51,7 +51,10 @@ export default function Register() {
       return;
     }
 
-    try{
+    // Show loading toast only if validation passes
+    const loadingToastId = toast.loading("Loading...");
+
+    try {
         const response = await axios.post("/api/user/registration", JSON.stringify(formData), {
             headers: {
                 'Content-Type': 'application/json'
@@ -59,11 +62,20 @@ export default function Register() {
         });
         const data = response.data;
         if (data.status === "success") {
-            toast.success("Registration successful");
-        } else if (data.status === "failed" && data.error === "User already exists") {
-            toast.error("User already exists");
+            //empty the form
+            setFormData({
+              firstName: "",
+              lastName: "",
+              email: "",
+              mobile: "",
+              password: "",
+            });
+
+            toast.update(loadingToastId, { render: "Registration successful", type: "success", isLoading: false, autoClose: 3000 });
+        } else if (data.error === "User already exists") {
+            toast.update(loadingToastId, { render: "User already exists", type: "error", isLoading: false, autoClose: 3000 });
         } else {
-            toast.error("Registration failed");
+            toast.update(loadingToastId, { render: "Registration failed", type: "error", isLoading: false, autoClose: 3000 });
         }
     } catch (err) {
         toast.error("Error registering user: " + err.message);
@@ -100,6 +112,7 @@ export default function Register() {
                   type="text"
                   autoComplete="firstName"
                   onChange={(e) => handleChange(e)}
+                  value={formData.firstName}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm pl-2"
                 />
@@ -121,6 +134,7 @@ export default function Register() {
                   type="text"
                   autoComplete="lastName"
                   onChange={(e) => handleChange(e)}
+                  value={formData.lastName}
                   required
                   className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
@@ -142,6 +156,7 @@ export default function Register() {
                   type="email"
                   autoComplete="email"
                   onChange={(e) => handleChange(e)}
+                  value={formData.email}
                   required
                   className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
@@ -163,6 +178,7 @@ export default function Register() {
                   type="number"
                   autoComplete="mobile"
                   onChange={(e) => handleChange(e)}
+                  value={formData.mobile}
                   required
                   className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
@@ -186,6 +202,7 @@ export default function Register() {
                   type="password"
                   autoComplete="current-password"
                   onChange={(e) => handleChange(e)}
+                  value={formData.password}
                   required
                   className="block w-full pl-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
