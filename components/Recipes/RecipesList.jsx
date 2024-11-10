@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
 import Modal from "../Modal";
-import SingleRecipe from "./SingleRecipe";
+
 
 const RecipesList = () => {
   const [openDetails, setOpenDetails] = useState(false);
@@ -33,7 +33,10 @@ const RecipesList = () => {
   const handleDetailsOpen = (id) => {
     setOpenDetails(true);
     setRecipeId(id);
+    // console.log("here is id", id);
   };
+
+  // console.log("here is recipeId", recipeId);
 
   if (isLoading) return <div>Loading recipes...</div>;
   if (error) return <div>Error loading recipes: {error.message}</div>;
@@ -94,9 +97,10 @@ const RecipesList = () => {
       </div>
 
       {/* Modal*/}
-      <Modal isOpen={openDetails} setIsOpen={setOpenDetails}>
-        <SingleRecipe id={recipeId} setIsOpen={setOpenDetails} />
+      <Modal isOpen={openDetails} id={recipeId} setIsOpen={setOpenDetails}>
+        {/* <SingleRecipe name={'ismail'} id={recipeId} setIsOpen={setOpenDetails} /> */}
       </Modal>
+      
     </div>
   );
 };
