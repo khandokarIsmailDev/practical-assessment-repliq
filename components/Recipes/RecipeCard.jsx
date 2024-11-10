@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 const RecipeCard = ({ recipe, handleDetailsOpen }) => {
+  // console.log("here is recipe", recipe.idMeal);
   return (
     <div
       onClick={() => handleDetailsOpen(recipe?.idMeal)}
