@@ -51,7 +51,7 @@ const Navbar = () => {
             <div className="text-gray-600 lg:pr-4 w-full">
               <ul className="tracking-wide font-medium text-sm flex flex-col gap-y-6 lg:gap-y-0 lg:flex-row w-full">
                 <li>
-                  <Link href="/all-recipes" className="block md:px-4 transition hover:text-yellow-700">
+                  <Link href="/all-recipes" className="block md:px-4 text-gray-600 font-bold capitalize transition hover:text-yellow-700">
                     <span>All recipes</span>
                   </Link>
                 </li>

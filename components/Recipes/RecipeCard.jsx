@@ -5,10 +5,10 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
   return (
     <div
       onClick={() => handleDetailsOpen(recipe?.idMeal)}
-      className="group space-y-6 border border-gray-100  rounded-3xl bg-white  px-4 py-4 text-center shadow hover:cursor-pointer hover:shadow-xl transition duration-200 shadow-gray-600/10"
+      className="group space-y-6 border border-gray-100  rounded-md bg-white  px-4 py-4 text-center shadow hover:cursor-pointer hover:shadow-xl transition duration-500 shadow-gray-600/10 hover:translate-y-[-30px]"
     >
       <Image
-        className="mx-auto rounded-2xl"
+        className="mx-auto rounded-md"
         src={recipe?.strMealThumb}
         alt="Web Development"
         loading="lazy"
@@ -23,8 +23,8 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
         consectetur ullam tempora ipsa iste officia sed officiis! Incidunt ea
         animi officiis.
       </p>
-      <div className="relative mx-auto flex items-center justify-center invisible  group-hover:visible">
-        <button className="text-primary">Click to see details</button>
+      <div className="relative mx-auto flex items-center justify-center invisible scale-0 group-hover:scale-100 transition-all duration-500  group-hover:visible">
+        <button className="text-primary text-[#713E12]">Click to see details</button>
       </div>
     </div>
   );
