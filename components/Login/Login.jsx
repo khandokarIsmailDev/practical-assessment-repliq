@@ -1,10 +1,13 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function Login() {
+  const router = useRouter();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -44,6 +47,7 @@ export default function Login() {
 
             if(response.status === 200){
                 toast.update(loadingToastId, { render: "Login successful", type: "success", isLoading: false, autoClose: 3000 });
+                router.push("/");
             }
         }catch(err){
             toast.update(loadingToastId, { render: "Invalid email or password", type: "error", isLoading: false, autoClose: 3000 });
@@ -52,6 +56,14 @@ export default function Login() {
     }
 
     console.log(formData);
+
+    useEffect(()=>{
+      //redirect homepage
+      const token = Cookies.get("token");
+      if(token){
+        router.push("/")
+      }
+    },[router])
 
   return (
     <div className="pt-28">
