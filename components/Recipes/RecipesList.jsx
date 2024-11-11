@@ -51,8 +51,13 @@ const RecipesList = () => {
   console.log("here is cart", cart);
 
   const handleAddToCart = (recipe) => {
-    setCart([...cart, recipe])
-    toast.success(`Recipe added to cart ${cart.length+1} items`)
+    const foundItem = cart.find(item => item.idMeal === recipe.idMeal)
+    if(foundItem){
+      toast.error(`Recipe already in cart`)
+    }else{
+      setCart([...cart, recipe])
+      toast.success(`Recipe added to cart ${cart.length+1} items`)
+    }
   }
 
   
