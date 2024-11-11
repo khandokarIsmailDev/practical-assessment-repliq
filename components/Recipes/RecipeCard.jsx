@@ -24,8 +24,9 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
         consectetur ullam tempora ipsa iste officia sed officiis! Incidunt ea
         animi officiis.
       </p>
-      <div className="relative mx-auto flex items-center justify-center invisible scale-0 group-hover:scale-100 transition-all duration-500  group-hover:visible">
+      <div className="relative mx-auto flex gap-3 items-center justify-between invisible scale-0 group-hover:scale-100 transition-all duration-500  group-hover:visible">
         <button className="text-primary text-[#713E12]">Click to see details</button>
+        <button className="bg-[#713E12] font-semibold hover:bg-[#713E12]/80 transition-all duration-300 text-white px-4 py-0 group-hover:py-2  rounded-md">Add To Cart</button>
       </div>
     </div>
   );

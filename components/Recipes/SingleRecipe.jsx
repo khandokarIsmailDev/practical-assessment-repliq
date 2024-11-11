@@ -22,6 +22,7 @@ const SingleRecipe = ({ id, setIsOpen }) => {
         <Image src={data?.strMealThumb} width={500} height={500} alt="Image" />
       </div>
       <h2 className="text2xl font-semibold">{data?.strMeal}</h2>
+      <button className="bg-[#713E12] font-semibold hover:bg-[#713E12]/80 transition-all duration-300 text-white p-2 rounded-md">Add To Cart</button>
     </div>
   );
 };
