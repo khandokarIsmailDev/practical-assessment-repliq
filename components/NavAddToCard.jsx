@@ -3,11 +3,13 @@ import Link from "next/link";
 import React,{useContext} from "react";
 import { AddToCardContext } from "@/context";
 
-export default function NavAddToCard() {
+export default function NavAddToCard({onShowCart}) {
   const {cart} = useContext(AddToCardContext)
+  
   return (
     <Link
-      href="/cart"
+      href=""
+      onClick={() => onShowCart(true)}
       className="block md:px-4 font-bold transition hover:text-yellow-700 relative"
     >
       <span >Cart</span>

@@ -3,9 +3,11 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import NavAddToCard from "./NavAddToCard";
+import CartDetail from "./Recipes/CartDetail";
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showCart,setShowCart] = useState(false)
 
   // Check authentication status whenever token changes
   useEffect(() => {
@@ -37,6 +39,7 @@ const Navbar = () => {
   };
 
   return (
+    <>
     <nav className="fixed z-50 w-full bg-white md:absolute md:bg-transparent">
       <div className="container m-auto px-2 md:px-12 lg:px-7">
         <div className="flex flex-wrap items-center justify-between py-3 gap-6 md:py-4 md:gap-0">
@@ -57,7 +60,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <NavAddToCard />
+                  <NavAddToCard onShowCart={setShowCart} />
                 </li>
               </ul>
             </div>
@@ -98,6 +101,8 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+    {showCart && <CartDetail onCloseCart={setShowCart} />}
+    </>
   );
 };
 
