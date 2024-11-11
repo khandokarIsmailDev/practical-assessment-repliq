@@ -1,3 +1,7 @@
+
+![image](./preview.png)
+
+
 # Bug
 
 - Modal is not showing the details of the recipe
