@@ -1,8 +1,14 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import AddToCard from "./AddToCard";
 
-const RecipeCard = ({ recipe, handleDetailsOpen }) => {
+
+
+const RecipeCard = ({ recipe, handleDetailsOpen, handleAddToCart }) => {
   // console.log("here is recipe", recipe.idMeal);
+
+  
+
   return (
     <div
       onClick={() => handleDetailsOpen(recipe?.idMeal)}
@@ -26,7 +32,13 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
       </p>
       <div className="relative mx-auto flex gap-3 items-center justify-between invisible scale-0 group-hover:scale-100 transition-all duration-500  group-hover:visible">
         <button className="text-primary text-[#713E12]">Click to see details</button>
-        <button className="bg-[#713E12] font-semibold hover:bg-[#713E12]/80 transition-all duration-300 text-white px-4 py-0 group-hover:py-2  rounded-md">Add To Cart</button>
+        <AddToCard 
+          padding={0} 
+          handleAddToCart={(event) => {
+            event.stopPropagation(); // Prevents the click event from bubbling up
+            handleAddToCart(recipe);
+          }} 
+        />
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 "use client";
 import HttpKit from "@/common/helpers/HttpKit";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import RecipeCard from "./RecipeCard";
 import Modal from "../Modal";
+import { AddToCardContext } from "@/context";
+import {toast} from "react-toastify";
 
 
 const RecipesList = () => {
@@ -12,6 +14,8 @@ const RecipesList = () => {
   const [recipes, setRecipes] = useState([]);
   const [searchInput, setSearchInput] = useState("abc");
   const [searchQuery, setSearchQuery] = useState(null);
+
+  const { cart, setCart } = useContext(AddToCardContext);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes"],
@@ -25,6 +29,8 @@ const RecipesList = () => {
       setRecipes(data);
     }
   }, [data]);
+
+  
 
   const handleSearch = () => {
     setSearchQuery(searchInput);
@@ -40,6 +46,16 @@ const RecipesList = () => {
 
   if (isLoading) return <div>Loading recipes...</div>;
   if (error) return <div>Error loading recipes: {error.message}</div>;
+
+  
+  console.log("here is cart", cart);
+
+  const handleAddToCart = (recipe) => {
+    setCart([...cart, recipe])
+    toast.success(`Recipe added to cart ${cart.length+1} items`)
+  }
+
+  
 
   return (
     <div className="bg-gray-50 py-10">
@@ -89,6 +105,7 @@ const RecipesList = () => {
                   key={recipe?.id}
                   recipe={recipe}
                   handleDetailsOpen={handleDetailsOpen}
+                  handleAddToCart={handleAddToCart}
                 />
               ))}
             </div>
@@ -97,7 +114,7 @@ const RecipesList = () => {
       </div>
 
       {/* Modal*/}
-      <Modal isOpen={openDetails} id={recipeId} setIsOpen={setOpenDetails}>
+      <Modal isOpen={openDetails} id={recipeId} setIsOpen={setOpenDetails} handleAddToCart={handleAddToCart}>
         {/* <SingleRecipe name={'ismail'} id={recipeId} setIsOpen={setOpenDetails} /> */}
       </Modal>
       

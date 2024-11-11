@@ -2,8 +2,9 @@ import HttpKit from "@/common/helpers/HttpKit";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
+import AddToCard from "./AddToCard";
 
-const SingleRecipe = ({ id, setIsOpen }) => {
+const SingleRecipe = ({ id, setIsOpen, handleAddToCart }) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipe-details",id],
     queryFn: () => HttpKit.getRecipeDetails(id),
@@ -22,7 +23,7 @@ const SingleRecipe = ({ id, setIsOpen }) => {
         <Image src={data?.strMealThumb} width={500} height={500} alt="Image" />
       </div>
       <h2 className="text2xl font-semibold">{data?.strMeal}</h2>
-      <button className="bg-[#713E12] font-semibold hover:bg-[#713E12]/80 transition-all duration-300 text-white p-2 rounded-md">Add To Cart</button>
+      <AddToCard padding={2} handleAddToCart={() => handleAddToCart(data)} />
     </div>
   );
 };

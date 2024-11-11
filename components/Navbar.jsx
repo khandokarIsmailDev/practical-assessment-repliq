@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import NavAddToCard from "./NavAddToCard";
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,9 +57,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/cart" className="block md:px-4 transition hover:text-yellow-700">
-                    <span>Cart</span>
-                  </Link>
+                  <NavAddToCard />
                 </li>
               </ul>
             </div>
