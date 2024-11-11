@@ -4,7 +4,13 @@ import { AddToCardContext } from '@/context'
 
 
 export default function CartDetail({onCloseCart}) {
-  const {cart} = useContext(AddToCardContext)
+  const {cart,setCart} = useContext(AddToCardContext)
+
+  const handleRemove = (event,id) => {
+    event.stopPropagation()
+    setCart(cart.filter((item) => item.idMeal !== id))
+  }
+
   console.log('all cart',cart)
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm" onClick={() => onCloseCart(false)}>
@@ -15,26 +21,23 @@ export default function CartDetail({onCloseCart}) {
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
             {cart.length > 0 ? cart.map((item) => (
-              <div key={item.id} className="grid grid-cols-[1fr_auto] gap-4">
+              <div key={item.idMeal} className="grid grid-cols-[1fr_auto] gap-4">
                 <div className="flex items-center gap-4">
                   <img
                     className="rounded overflow-hidden"
-                    src=""
+                    src={item.strMealThumb}
                     alt=""
                     width={'50px'}
                     height={'50px'}
                   />
                   <div>
-                    <h3 className="text-base md:text-xl font-bold">{item.title}</h3>
-                    <p className="max-md:text-xs text-[#575A6E]">
-                      {item.genre}
-                    </p>
-                    <span className="max-md:text-xs">${item.price}</span>
+                    <h3 className="text-base md:text-xl font-bold">{item.strMeal}</h3>
+                    
                   </div>
                 </div>
                 <div className="flex justify-between gap-4 items-center">
-                  <button className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                  onClick={(event) => handleRemove(event,item.id)}
+                  <button className="bg-[#713E12] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
+                  onClick={(event) => handleRemove(event,item.idMeal)}
                   >
                     <img className="w-5 h-5" src="/delete.svg" alt="" />
                     <span className="max-md:hidden">Remove</span>
